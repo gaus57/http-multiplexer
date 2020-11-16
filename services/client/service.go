@@ -32,6 +32,10 @@ func (s *Service) Get(ctx context.Context, url string) (json.RawMessage, error) 
 		return nil, fmt.Errorf("failed to do request: %w", err)
 	}
 
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("invalid response status: %d", res.StatusCode)
+	}
+
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read response body: %w", err)
